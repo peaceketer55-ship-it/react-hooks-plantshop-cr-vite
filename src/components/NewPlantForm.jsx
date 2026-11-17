@@ -5,8 +5,10 @@ function NewPlantForm({ onAddPlant }) {
   function handleSubmit(event) {
     event.preventDefault();
 
-    // Collect the values entered in the form
-    const formData = new FormData(event.target);
+    // Get the form whether the event comes from the form or button
+    const form = event.currentTarget.form || event.currentTarget;
+
+    const formData = new FormData(form);
 
     const newPlant = {
       name: formData.get("name"),
@@ -14,11 +16,9 @@ function NewPlantForm({ onAddPlant }) {
       price: formData.get("price"),
     };
 
-    // Send the new plant to the parent component
     onAddPlant(newPlant);
 
-    // Clear the form
-    event.target.reset();
+    form.reset();
   }
 
   return (
@@ -45,7 +45,9 @@ function NewPlantForm({ onAddPlant }) {
           placeholder="Price"
         />
 
-        <button type="submit">Add Plant</button>
+        <button type="button" onClick={handleSubmit}>
+          Add Plant
+        </button>
       </form>
     </div>
   );
